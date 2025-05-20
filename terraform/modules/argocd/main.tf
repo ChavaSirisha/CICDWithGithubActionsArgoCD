@@ -14,6 +14,6 @@ resource "helm_release" "argocd" {   //install the ArgoCD Helm chart
   create_namespace = true
 
   values = [
-    file("${path.module}/values.yaml")  //loads custom Helm values from a values.yaml file
+    file("${path.module}/Values.yaml")  //loads custom Helm values from a values.yaml file
   ]
 }
