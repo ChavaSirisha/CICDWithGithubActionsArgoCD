@@ -39,6 +39,6 @@ module "eks" {
   node_groups     = var.node_groups
 }
 
-module "argocd" {
-  source = "./modules/argocd"
-}
+# module "argocd" {
+#   source = "./modules/argocd"
+# }
