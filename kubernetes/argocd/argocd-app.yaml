@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: go-web-app
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/ChavaSirisha/CICDWithGithubActionsArgoCD.git
+    targetRevision: main
+    path: helm/go-web-app     # Path to your Helm chart in repo
+
+    helm:
+      valueFiles:
+        - Values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc // Kubernetes API server which refers to the same Kubernetes cluster where Argo CD is running.
+    namespace: go-web-app  //The target namespace in the cluster where resources will be deployed
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
