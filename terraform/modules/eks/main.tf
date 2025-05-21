@@ -1,3 +1,8 @@
+# Creates IAM roles for EKS cluster and worker nodes.
+# Attaches necessary policies to these roles.
+# Creates an EKS cluster.
+# Creates managed EKS node groups using variables.
+
 resource "aws_iam_role" "cluster" {
   name = "${var.cluster_name}-cluster-role"
 

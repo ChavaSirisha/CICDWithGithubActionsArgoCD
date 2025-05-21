@@ -1,18 +1,27 @@
 name: Apply Argo CD Application
 
-workflow_run:
-    workflows: ["Build and Deploy Go App"]  #third workflow
+on:
+  workflow_run:
+    workflows: ["Build and Deploy Go App"]  # Third workflow
     types:
       - completed
 
 jobs:
   apply-argocd-app:
     runs-on: ubuntu-latest
-    needs: install-argocd
+    env:
+      AWS_REGION: us-east-1
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
@@ -21,7 +30,7 @@ jobs:
 
       - name: Update kubeconfig for EKS
         run: |
-          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name aws_eks_cluster.main.name
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name my_eks_cluster
 
       - name: Apply Argo CD Application
         run: |

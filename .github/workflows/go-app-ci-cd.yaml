@@ -1,9 +1,10 @@
 name: Build and Deploy Go App
 
-workflow_run:
-    workflows: ["Install Argo CD on EKS"]  #second workflow
-    types:
-      - completed
+on:
+  workflow_run:
+      workflows: ["Install Argo CD on EKS"]  #second workflow
+      types:
+        - completed
 
 jobs: 
   build-and-test:
@@ -47,7 +48,7 @@ jobs:
       - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./source
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/go-web-app:${{ github.run_id }}

@@ -1,13 +1,16 @@
 name: Install Argo CD on EKS
 
-workflow_run:
-    workflows: ["Provision AWS Infrastructure"]  #first workflow
+on:
+  workflow_run:
+    workflows: ["Provision AWS Infrastructure"]
     types:
       - completed
 
 jobs:
   install-argocd:
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
 
     steps:
       - name: Checkout repository
@@ -26,8 +29,7 @@ jobs:
           version: 'latest'
 
       - name: Update kubeconfig for EKS
-        run: |
-          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name aws_eks_cluster.main.name
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name my-eks-cluster
 
       - name: Install Helm
         uses: azure/setup-helm@v3
