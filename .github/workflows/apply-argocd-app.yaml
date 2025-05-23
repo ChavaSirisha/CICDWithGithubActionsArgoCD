@@ -30,7 +30,7 @@ jobs:
 
       - name: Update kubeconfig for EKS
         run: |
-          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name my_eks_cluster
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name my-eks-cluster
 
       - name: Apply Argo CD Application
         run: |
