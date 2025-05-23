@@ -9,5 +9,5 @@ image:
   repository: anithapatcha/go-web-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "15200282885"
+  tag: "15201177616"
 
